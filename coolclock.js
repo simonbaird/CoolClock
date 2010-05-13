@@ -169,26 +169,34 @@ CoolClock.prototype = {
 	render: function(hour,min,sec) {
 		// Get the skin
 		var skin = CoolClock.config.skins[this.skinId];
+		if (!skin) skin = CoolClock.config.skins[CoolClock.config.defaultSkin];
 
 		// Clear
 		this.ctx.clearRect(0,0,this.renderRadius*2,this.renderRadius*2);
 
 		// Draw the outer edge of the clock
-		this.fullCircleAt(this.renderRadius,this.renderRadius,skin.outerBorder);
+		if (skin.outerBorder)
+			this.fullCircleAt(this.renderRadius,this.renderRadius,skin.outerBorder);
 
 		// Draw the tick marks. Every 5th one is a big one
-		for (var i=0;i<60;i++)
-			this.radialLineAtAngle(i/60,skin[ i%5 ? "smallIndicator" : "largeIndicator"]);
-				
-		// Draw the hands
-		this.radialLineAtAngle((hour+min/60)/12,skin.hourHand);
-		this.radialLineAtAngle((min+sec/60)/60,skin.minuteHand);
-		if (this.showSecondHand) {
-			this.radialLineAtAngle(sec/60,skin.secondHand);
-			if (!CoolClock.config.isIE)
-				// Second hand decoration doesn't render right in IE so lets turn it off
-				this.radialLineAtAngle(sec/60,skin.secondDecoration);
+		for (var i=0;i<60;i++) {
+			(i%5)  && skin.smallIndicator && this.radialLineAtAngle(i/60,skin.smallIndicator);
+			!(i%5) && skin.largeIndicator && this.radialLineAtAngle(i/60,skin.largeIndicator);
 		}
+
+		// Draw the hands
+		if (skin.hourHand)
+			this.radialLineAtAngle((hour+min/60)/12,skin.hourHand);
+
+		if (skin.minuteHand)
+			this.radialLineAtAngle((min+sec/60)/60,skin.minuteHand);
+
+		if (this.showSecondHand && skin.secondHand)
+			this.radialLineAtAngle(sec/60,skin.secondHand);
+
+		// Second hand decoration doesn't render right in IE so lets turn it off
+		if (!CoolClock.config.isIE && this.showSecondHand && skin.secondDecoration)
+			this.radialLineAtAngle(sec/60,skin.secondDecoration);
 	},
 
 	// Check the time and display the clock
