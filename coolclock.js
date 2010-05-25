@@ -1,5 +1,5 @@
 /**
- * CoolClock 2.0.1
+ * CoolClock 2.0.2
  * Copyright 2010, Simon Baird
  * Released under the BSD License.
  *
@@ -20,6 +20,8 @@ CoolClock.config = {
 	defaultRadius: 85,
 	renderRadius: 100,
 	defaultSkin: "swissRail",
+	showSecs: false,
+	showAmPm: true,
 
 	skins:	{
 		// There are more skins in moreskins.js
@@ -87,7 +89,7 @@ CoolClock.prototype = {
 		this.canvas.style.height = this.displayRadius*2 + "px";
 
 		// Explain me please...?
-		this.renderRadius = CoolClock.config.renderRadius; 
+		this.renderRadius = CoolClock.config.renderRadius;
 		this.scale = this.displayRadius / this.renderRadius;
 
 		// Initialise canvas context
@@ -139,6 +141,32 @@ CoolClock.prototype = {
 		}
 	},
 
+	// Draw some text centered vertically and horizontally
+	drawTextAt: function(theText,x,y) {
+		with (this.ctx) {
+			save();
+			font = '15px sans-serif';
+			var tSize = this.ctx.measureText(theText);
+			if (!tSize.height) tSize.height = 15; // no height in firefox.. :(
+			fillText(theText,x - tSize.width/2,y - tSize.height/2);
+			restore();
+		}
+	},
+
+	lpad2: function(num) {
+		return (num < 10 ? '0' : '') + num;
+	},
+
+	timeText: function(hour,min,sec) {
+		var c = CoolClock.config;
+		return '' +
+			(c.showAmPm ? (hour==0 ? 12 : (hour%12)) : hour) + ':' +
+			this.lpad2(min) +
+			(c.showSecs ? ':' + this.lpad2(sec) : '') +
+			(c.showAmPm ? (hour < 12 ? ' am' : ' pm') : '')
+		;
+	},
+
 	// Draw a radial line by rotating then drawing a straight line
 	radialLineAtAngle: function(angleFraction,skin) {
 		with (this.ctx) {
@@ -183,6 +211,13 @@ CoolClock.prototype = {
 			(i%5)  && skin.smallIndicator && this.radialLineAtAngle(i/60,skin.smallIndicator);
 			!(i%5) && skin.largeIndicator && this.radialLineAtAngle(i/60,skin.largeIndicator);
 		}
+
+		// Write the time
+		this.drawTextAt(
+			this.timeText(hour,min,sec),
+			this.renderRadius,
+			this.renderRadius+this.renderRadius/2
+		);
 
 		// Draw the hands
 		if (skin.hourHand)
