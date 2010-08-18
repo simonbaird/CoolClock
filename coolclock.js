@@ -1,5 +1,5 @@
 /**
- * CoolClock 2.0.2
+ * CoolClock 2.1.0
  * Copyright 2010, Simon Baird
  * Released under the BSD License.
  *
