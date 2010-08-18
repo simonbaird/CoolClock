@@ -113,50 +113,46 @@ CoolClock.prototype = {
 
 	// Draw a circle at point x,y with params as defined in skin
 	fullCircleAt: function(x,y,skin) {
-		with (this.ctx) {
-			save();
-			globalAlpha = skin.alpha;
-			lineWidth = skin.lineWidth;
+		this.ctx.save();
+		this.ctx.globalAlpha = skin.alpha;
+		this.ctx.lineWidth = skin.lineWidth;
 
-			if (!CoolClock.config.isIE) {
-				beginPath();
-			}
-
-			if (CoolClock.config.isIE) {
-				// excanvas doesn't scale line width so we will do it here
-				lineWidth = lineWidth * this.scale;
-			}
-
-			arc(x, y, skin.radius, 0, 2*Math.PI, false);
-
-			if (CoolClock.config.isIE) {
-				// excanvas doesn't close the circle so let's fill in the tiny gap
-				arc(x, y, skin.radius, -0.1, 0.1, false);
-			}
-
-			if (skin.fillColor) {
-				fillStyle = skin.fillColor
-				fill();
-			}
-			else {
-				// XXX why not stroke and fill
-				strokeStyle = skin.color;
-				stroke();
-			}
-			restore();
+		if (!CoolClock.config.isIE) {
+			this.ctx.beginPath();
 		}
+
+		if (CoolClock.config.isIE) {
+			// excanvas doesn't scale line width so we will do it here
+			this.ctx.lineWidth = this.ctx.lineWidth * this.scale;
+		}
+
+		this.ctx.arc(x, y, skin.radius, 0, 2*Math.PI, false);
+
+		if (CoolClock.config.isIE) {
+			// excanvas doesn't close the circle so let's fill in the tiny gap
+			this.ctx.arc(x, y, skin.radius, -0.1, 0.1, false);
+		}
+
+		if (skin.fillColor) {
+			this.ctx.fillStyle = skin.fillColor
+			this.ctx.fill();
+		}
+		else {
+			// XXX why not stroke and fill
+			this.ctx.strokeStyle = skin.color;
+			this.ctx.stroke();
+		}
+		this.ctx.restore();
 	},
 
 	// Draw some text centered vertically and horizontally
 	drawTextAt: function(theText,x,y) {
-		with (this.ctx) {
-			save();
-			font = '15px sans-serif';
-			var tSize = this.ctx.measureText(theText);
-			if (!tSize.height) tSize.height = 15; // no height in firefox.. :(
-			fillText(theText,x - tSize.width/2,y - tSize.height/2);
-			restore();
-		}
+		this.ctx.save();
+		this.ctx.font = '15px sans-serif';
+		var tSize = this.ctx.measureText(theText);
+		if (!tSize.height) tSize.height = 15; // no height in firefox.. :(
+		this.ctx.fillText(theText,x - tSize.width/2,y - tSize.height/2);
+		this.ctx.restore();
 	},
 
 	lpad2: function(num) {
@@ -190,29 +186,27 @@ CoolClock.prototype = {
 	// Draw a radial line by rotating then drawing a straight line
 	// Ha ha, I think I've accidentally used Taus, (see http://tauday.com/)
 	radialLineAtAngle: function(angleFraction,skin) {
-		with (this.ctx) {
-			save();
-			translate(this.renderRadius,this.renderRadius);
-			rotate(Math.PI * (2 * angleFraction - 0.5));
-			globalAlpha = skin.alpha;
-			strokeStyle = skin.color;
-			lineWidth = skin.lineWidth;
+		this.ctx.save();
+		this.ctx.translate(this.renderRadius,this.renderRadius);
+		this.ctx.rotate(Math.PI * (2 * angleFraction - 0.5));
+		this.ctx.globalAlpha = skin.alpha;
+		this.ctx.strokeStyle = skin.color;
+		this.ctx.lineWidth = skin.lineWidth;
 
-			if (CoolClock.config.isIE)
-				// excanvas doesn't scale line width so we will do it here
-				lineWidth = lineWidth * this.scale;
+		if (CoolClock.config.isIE)
+			// excanvas doesn't scale line width so we will do it here
+			this.ctx.lineWidth = this.ctx.lineWidth * this.scale;
 
-			if (skin.radius) {
-				this.fullCircleAt(skin.startAt,0,skin)
-			}
-			else {
-				beginPath();
-				moveTo(skin.startAt,0)
-				lineTo(skin.endAt,0);
-				stroke();
-			}
-			restore();
+		if (skin.radius) {
+			this.fullCircleAt(skin.startAt,0,skin)
 		}
+		else {
+			this.ctx.beginPath();
+			this.ctx.moveTo(skin.startAt,0)
+			this.ctx.lineTo(skin.endAt,0);
+			this.ctx.stroke();
+		}
+		this.ctx.restore();
 	},
 
 	render: function(hour,min,sec) {
