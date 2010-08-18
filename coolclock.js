@@ -1,5 +1,5 @@
 /**
- * CoolClock 2.1.1
+ * CoolClock 2.1.2
  * Copyright 2010, Simon Baird
  * Released under the BSD License.
  *
@@ -161,12 +161,13 @@ CoolClock.prototype = {
 
 	tickAngle: function(second) {
 		// Log algorithm by David Bradshaw
+		var tweak = 2.72; // If it's lower the one second mark looks wrong (?)
 		if (this.logClock) {
-			return second == 0 ? 0 : (Math.log(second) / Math.log(60));
+			return second == 0 ? 0 : (Math.log(second*tweak) / Math.log(60*tweak));
 		}
 		else if (this.logClockRev) {
-			second = 60 - second;
-			return 1.0 - (second < 1 ? 0 : (Math.log(second) / Math.log(60)));
+			second = (60 - second) % 60;
+			return 1.0 - (second == 0 ? 0 : (Math.log(second*tweak) / Math.log(60*tweak)));
 		}
 		else {
 			return second/60.0;
