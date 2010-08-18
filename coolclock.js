@@ -20,6 +20,8 @@ CoolClock.config = {
 	defaultRadius: 85,
 	renderRadius: 100,
 	defaultSkin: "swissRail",
+	// Should be in skin probably...
+	// (TODO: allow skinning of digital display)
 	showSecs: false,
 	showAmPm: true,
 
@@ -76,10 +78,11 @@ CoolClock.prototype = {
 		this.skinId         = options.skinId || CoolClock.config.defaultSkin;
 		this.displayRadius  = options.displayRadius || CoolClock.config.defaultRadius;
 		this.showSecondHand = typeof options.showSecondHand == "boolean" ? options.showSecondHand : true;
-		this.tickDelay      = CoolClock.config[ this.showSecondHand ? "tickDelay" : "longTickDelay" ];
-		this.gmtOffset      = options.gmtOffset != null ? parseFloat(options.gmtOffset) : options.gmtOffset;
+		this.gmtOffset      = (options.gmtOffset != null && options.gmtOffset != '') ? parseFloat(options.gmtOffset) : null;
 		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
 		this.logClock       = typeof options.logClock == "boolean" ? options.logClock : false;
+
+		this.tickDelay      = CoolClock.config[ this.showSecondHand ? "tickDelay" : "longTickDelay" ];
 
 		// Get the canvas element
 		this.canvas = document.getElementById(this.canvasId);
@@ -162,7 +165,7 @@ CoolClock.prototype = {
 	timeText: function(hour,min,sec) {
 		var c = CoolClock.config;
 		return '' +
-			(c.showAmPm ? (hour==0 ? 12 : (hour%12)) : hour) + ':' +
+			(c.showAmPm ? ((hour%12)==0 ? 12 : (hour%12)) : hour) + ':' +
 			this.lpad2(min) +
 			(c.showSecs ? ':' + this.lpad2(sec) : '') +
 			(c.showAmPm ? (hour < 12 ? ' am' : ' pm') : '')
