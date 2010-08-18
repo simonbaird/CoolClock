@@ -9,8 +9,8 @@
  */
 
 // Constructor for CoolClock objects
-window.CoolClock = function(canvasId,displayRadius,skinId,showSecondHand,gmtOffset) {
-	return this.init(canvasId,displayRadius,skinId,showSecondHand,gmtOffset);
+window.CoolClock = function(options) {
+	return this.init(options);
 }
 
 // Config contains some defaults, and clock skins
@@ -70,17 +70,19 @@ CoolClock.config = {
 CoolClock.prototype = {
 
 	// Initialise using the parameters parsed from the colon delimited class
-	init: function(canvasId,displayRadius,skinId,showSecondHand,gmtOffset) {
-		// Store the parameters
-		this.canvasId = canvasId;
-		this.displayRadius = displayRadius || CoolClock.config.defaultRadius;
-		this.skinId = skinId || CoolClock.config.defaultSkin;
-		this.showSecondHand = typeof showSecondHand == "boolean" ? showSecondHand : true;
-		this.tickDelay = CoolClock.config[ this.showSecondHand ? "tickDelay" : "longTickDelay" ];
-		this.gmtOffset = gmtOffset != null ? parseFloat(gmtOffset) : gmtOffset;
+	init: function(options) {
+		// Parse and store the options
+		this.canvasId       = options.canvasId;
+		this.skinId         = options.skinId || CoolClock.config.defaultSkin;
+		this.displayRadius  = options.displayRadius || CoolClock.config.defaultRadius;
+		this.showSecondHand = typeof options.showSecondHand == "boolean" ? options.showSecondHand : true;
+		this.tickDelay      = CoolClock.config[ this.showSecondHand ? "tickDelay" : "longTickDelay" ];
+		this.gmtOffset      = options.gmtOffset != null ? parseFloat(options.gmtOffset) : options.gmtOffset;
+		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
+		this.logClock       = typeof options.logClock == "boolean" ? options.logClock : false;
 
 		// Get the canvas element
-		this.canvas = document.getElementById(canvasId);
+		this.canvas = document.getElementById(this.canvasId);
 
 		// Make the canvas the requested size. It's always square.
 		this.canvas.setAttribute("width",this.displayRadius*2);
@@ -97,7 +99,7 @@ CoolClock.prototype = {
 		this.ctx.scale(this.scale,this.scale);
 
 		// Keep track of this object
-		CoolClock.config.clockTracker[canvasId] = this;
+		CoolClock.config.clockTracker[this.canvasId] = this;
 
 		// Start the clock going
 		this.tick();
@@ -213,11 +215,13 @@ CoolClock.prototype = {
 		}
 
 		// Write the time
-		this.drawTextAt(
-			this.timeText(hour,min,sec),
-			this.renderRadius,
-			this.renderRadius+this.renderRadius/2
-		);
+		if (this.showDigital) {
+			this.drawTextAt(
+				this.timeText(hour,min,sec),
+				this.renderRadius,
+				this.renderRadius+this.renderRadius/2
+			);
+		}
 
 		// Draw the hands
 		if (skin.hourHand)
@@ -280,7 +284,15 @@ CoolClock.findAndCreateClocks = function() {
 				canvases[i].id = '_coolclock_auto_id_' + CoolClock.config.noIdCount++;
 			}
 			// Create a clock object for this element
-			new CoolClock(canvases[i].id,fields[2],fields[1],fields[3]!="noSeconds",fields[4]);
+			new CoolClock({
+				canvasId:       canvases[i].id,
+				skinId:         fields[1],
+				displayRadius:  fields[2],
+				showSecondHand: fields[3]!='noSeconds',
+				gmtOffset:      fields[4],
+				showDigital:    fields[5]=='showDigital',
+				logClock:       fields[6]=='logClock'
+			});
 		}
 	}
 };
