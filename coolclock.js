@@ -166,11 +166,11 @@ CoolClock.prototype = {
 	tickAngle: function(second) {
 		// Log algorithm by David Bradshaw
 		if (this.logClock) {
-			return second == 0 ? 0 : (Math.log(second/0.6) / Math.log(10)) / 2.0;
+			return second == 0 ? 0 : (Math.log(second) / Math.log(60));
 		}
 		else if (this.logClockRev) {
 			second = 60 - second;
-			return -(second == 0 ? 0 : (Math.log(second/0.6) / Math.log(10)) / 2.0);
+			return 1.0 - (second < 1 ? 0 : (Math.log(second) / Math.log(60)));
 		}
 		else {
 			return second/60.0;
@@ -188,6 +188,7 @@ CoolClock.prototype = {
 	},
 
 	// Draw a radial line by rotating then drawing a straight line
+	// Ha ha, I think I've accidentally used Taus, (see http://tauday.com/)
 	radialLineAtAngle: function(angleFraction,skin) {
 		with (this.ctx) {
 			save();
