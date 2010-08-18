@@ -50,6 +50,12 @@ CoolClock.config.skins = {
 		secondDecoration: { lineWidth: 1, startAt: 52, radius: 26, fillColor: "#ffcccc", color: "red", alpha: 0.5 }
 	},
 
+	simonbaird_com: {
+		hourHand:         { lineWidth: 80, startAt: -15, endAt: 35,  color: 'magenta', alpha: 0.5 },
+		minuteHand:       { lineWidth: 80, startAt: -15, endAt: 65,  color: 'cyan', alpha: 0.5 },
+		secondDecoration: { lineWidth: 1,  startAt: 40,  radius: 40, color: "#fff", fillColor: 'yellow', alpha: 0.5 }
+	},
+
 	// by bonstio, http://bonstio.net
 	classic/*was gIG*/: {
 		outerBorder:      { lineWidth: 185, radius: 1, color: "#E5ECF9", alpha: 1 },

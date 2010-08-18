@@ -19,10 +19,10 @@ CoolClock.config = {
 	longTickDelay: 15000,
 	defaultRadius: 85,
 	renderRadius: 100,
-	defaultSkin: "swissRail",
+	defaultSkin: "chunkySwiss",
 	// Should be in skin probably...
 	// (TODO: allow skinning of digital display)
-	showSecs: false,
+	showSecs: true,
 	showAmPm: true,
 
 	skins:	{
@@ -81,6 +81,7 @@ CoolClock.prototype = {
 		this.gmtOffset      = (options.gmtOffset != null && options.gmtOffset != '') ? parseFloat(options.gmtOffset) : null;
 		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
 		this.logClock       = typeof options.logClock == "boolean" ? options.logClock : false;
+		this.logClockRev    = typeof options.logClock == "boolean" ? options.logClockRev : false;
 
 		this.tickDelay      = CoolClock.config[ this.showSecondHand ? "tickDelay" : "longTickDelay" ];
 
@@ -162,6 +163,20 @@ CoolClock.prototype = {
 		return (num < 10 ? '0' : '') + num;
 	},
 
+	tickAngle: function(second) {
+		// Log algorithm by David Bradshaw
+		if (this.logClock) {
+			return second == 0 ? 0 : (Math.log(second/0.6) / Math.log(10)) / 2.0;
+		}
+		else if (this.logClockRev) {
+			second = 60 - second;
+			return -(second == 0 ? 0 : (Math.log(second/0.6) / Math.log(10)) / 2.0);
+		}
+		else {
+			return second/60.0;
+		}
+	},
+
 	timeText: function(hour,min,sec) {
 		var c = CoolClock.config;
 		return '' +
@@ -213,8 +228,8 @@ CoolClock.prototype = {
 
 		// Draw the tick marks. Every 5th one is a big one
 		for (var i=0;i<60;i++) {
-			(i%5)  && skin.smallIndicator && this.radialLineAtAngle(i/60,skin.smallIndicator);
-			!(i%5) && skin.largeIndicator && this.radialLineAtAngle(i/60,skin.largeIndicator);
+			(i%5)  && skin.smallIndicator && this.radialLineAtAngle(this.tickAngle(i),skin.smallIndicator);
+			!(i%5) && skin.largeIndicator && this.radialLineAtAngle(this.tickAngle(i),skin.largeIndicator);
 		}
 
 		// Write the time
@@ -228,17 +243,17 @@ CoolClock.prototype = {
 
 		// Draw the hands
 		if (skin.hourHand)
-			this.radialLineAtAngle((hour+min/60)/12,skin.hourHand);
+			this.radialLineAtAngle(this.tickAngle((hour*5+min)),skin.hourHand);
 
 		if (skin.minuteHand)
-			this.radialLineAtAngle((min+sec/60)/60,skin.minuteHand);
+			this.radialLineAtAngle(this.tickAngle((min+sec/60.0)),skin.minuteHand);
 
 		if (this.showSecondHand && skin.secondHand)
-			this.radialLineAtAngle(sec/60,skin.secondHand);
+			this.radialLineAtAngle(this.tickAngle(sec),skin.secondHand);
 
 		// Second hand decoration doesn't render right in IE so lets turn it off
 		if (!CoolClock.config.isIE && this.showSecondHand && skin.secondDecoration)
-			this.radialLineAtAngle(sec/60,skin.secondDecoration);
+			this.radialLineAtAngle(this.tickAngle(sec),skin.secondDecoration);
 	},
 
 	// Check the time and display the clock
@@ -294,7 +309,8 @@ CoolClock.findAndCreateClocks = function() {
 				showSecondHand: fields[3]!='noSeconds',
 				gmtOffset:      fields[4],
 				showDigital:    fields[5]=='showDigital',
-				logClock:       fields[6]=='logClock'
+				logClock:       fields[6]=='logClock',
+				logClockRev:    fields[6]=='logClockRev'
 			});
 		}
 	}
