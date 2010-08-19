@@ -19,16 +19,17 @@
 
 		<script type="text/javascript">
 			$(function(){
+				var shuffle = function(){ return 0.5 - Math.random(); };
+				var clocks = [];
 				for (var skin in CoolClock.config.skins) {
 					if (skin != 'chunkySwissOnBlack') {
-						$('#demo').append(
-							'<div class="clock"><canvas id="'+skin+'_3" class="CoolClock:'+skin+':::::logClockRev"></canvas></div> ' +
-							'<div class="clock"><canvas id="'+skin+'_1" class="CoolClock:'+skin+'"></canvas></div> ' +
-							'<div class="clock"><canvas id="'+skin+'_2" class="CoolClock:'+skin+':::::logClock"></canvas></div> ' +
-							'\n'
-						);
+						clocks.push('<div class="clock"><canvas class="CoolClock:'+skin+'"                ></canvas></div>');
+						clocks.push('<div class="clock"><canvas class="CoolClock:'+skin+':::::logClock"   ></canvas></div>');
+						clocks.push('<div class="clock"><canvas class="CoolClock:'+skin+':::::logClockRev"></canvas></div>');
 					}
 				}
+				// shuffle three times for luck
+				$('#demo').append(clocks.sort(shuffle).sort(shuffle).sort(shuffle).join('\n'));
 				CoolClock.findAndCreateClocks();
 			});
 		</script>
