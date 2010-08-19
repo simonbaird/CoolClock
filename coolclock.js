@@ -1,5 +1,5 @@
 /**
- * CoolClock 2.1.2
+ * CoolClock 2.1.3
  * Copyright 2010, Simon Baird
  * Released under the BSD License.
  *
@@ -161,11 +161,12 @@ CoolClock.prototype = {
 
 	tickAngle: function(second) {
 		// Log algorithm by David Bradshaw
-		var tweak = 2.72; // If it's lower the one second mark looks wrong (?)
+		var tweak = 3; // If it's lower the one second mark looks wrong (?)
 		if (this.logClock) {
 			return second == 0 ? 0 : (Math.log(second*tweak) / Math.log(60*tweak));
 		}
 		else if (this.logClockRev) {
+			// Flip the seconds then flip the angle (trickiness)
 			second = (60 - second) % 60;
 			return 1.0 - (second == 0 ? 0 : (Math.log(second*tweak) / Math.log(60*tweak)));
 		}
@@ -189,7 +190,7 @@ CoolClock.prototype = {
 	radialLineAtAngle: function(angleFraction,skin) {
 		this.ctx.save();
 		this.ctx.translate(this.renderRadius,this.renderRadius);
-		this.ctx.rotate(Math.PI * (2 * angleFraction - 0.5));
+		this.ctx.rotate(Math.PI * (2.0 * angleFraction - 0.5));
 		this.ctx.globalAlpha = skin.alpha;
 		this.ctx.strokeStyle = skin.color;
 		this.ctx.lineWidth = skin.lineWidth;
@@ -239,10 +240,10 @@ CoolClock.prototype = {
 
 		// Draw the hands
 		if (skin.hourHand)
-			this.radialLineAtAngle(this.tickAngle((hour*5+min)),skin.hourHand);
+			this.radialLineAtAngle(this.tickAngle((hour*5 + min/60.0)),skin.hourHand);
 
 		if (skin.minuteHand)
-			this.radialLineAtAngle(this.tickAngle((min+sec/60.0)),skin.minuteHand);
+			this.radialLineAtAngle(this.tickAngle((min + sec/60.0)),skin.minuteHand);
 
 		if (this.showSecondHand && skin.secondHand)
 			this.radialLineAtAngle(this.tickAngle(sec),skin.secondHand);
