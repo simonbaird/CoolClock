@@ -9,7 +9,12 @@
 		<script src="../moreskins.js" type="text/javascript"></script>
 
 		<style type="text/css">
-			canvas { padding:10px; }
+			body { background-color:#ddd; }
+			.clock {
+				float:left; display:block; margin:10px; padding:10px; background-color:#fff;
+				-moz-box-shadow: 3px 3px 3px #999; -moz-border-radius:5px;
+				-webkit-box-shadow: 3px 3px 3px #999; -webkit-border-radius:5px;
+			}
 		</style>
 
 		<script type="text/javascript">
@@ -17,9 +22,9 @@
 				for (var skin in CoolClock.config.skins) {
 					if (skin != 'chunkySwissOnBlack') {
 						$('#demo').append(
-							'<canvas id="'+skin+'_3" class="CoolClock:'+skin+':::::logClockRev"></canvas>' +
-							'<canvas id="'+skin+'_1" class="CoolClock:'+skin+'"></canvas>' +
-							'<canvas id="'+skin+'_2" class="CoolClock:'+skin+':::::logClock"></canvas>' +
+							'<div class="clock"><canvas id="'+skin+'_3" class="CoolClock:'+skin+':::::logClockRev"></canvas></div> ' +
+							'<div class="clock"><canvas id="'+skin+'_1" class="CoolClock:'+skin+'"></canvas></div> ' +
+							'<div class="clock"><canvas id="'+skin+'_2" class="CoolClock:'+skin+':::::logClock"></canvas></div> ' +
 							'\n'
 						);
 					}
@@ -28,6 +33,6 @@
 			});
 		</script>
 	</head>
-	<body><div id="demo" style="padding:2em;"></div></body>
+	<body><div id="demo"></div></body>
 </html>
 
