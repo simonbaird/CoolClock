@@ -240,7 +240,7 @@ CoolClock.prototype = {
 
 		// Draw the hands
 		if (skin.hourHand)
-			this.radialLineAtAngle(this.tickAngle((hour*5 + min/60.0)),skin.hourHand);
+			this.radialLineAtAngle(this.tickAngle(((hour%12)*5 + min/60.0)),skin.hourHand);
 
 		if (skin.minuteHand)
 			this.radialLineAtAngle(this.tickAngle((min + sec/60.0)),skin.minuteHand);
