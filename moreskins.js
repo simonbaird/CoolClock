@@ -208,5 +208,25 @@ CoolClock.config.skins = {
 		minuteHand:       { lineWidth: 2, startAt: -20, endAt: 80, color: "#7c8c03", alpha: .9 },
 		secondHand:       { lineWidth: 2, startAt: 70, endAt: 94, color: "#d93d04", alpha: .85 },
 		secondDecoration: { lineWidth: 1, startAt: 70, radius: 3, fillColor: "red", color: "black", alpha: .7 }
+	},
+	
+	Knight: {
+		outerBorder:      { lineWidth: 99, radius: 50, color: "white", alpha: 0.4 },
+		smallIndicator:   { lineWidth: 2, startAt: 88, endAt: 92, color: "black", alpha: 0 },
+		largeIndicator:   { lineWidth: 8, startAt: 80, endAt: 92, color: "black", alpha: 1 },
+		hourHand:         { lineWidth: 12, startAt: -15, endAt: 50, color: "black", alpha: 1 },
+		minuteHand:       { lineWidth: 10, startAt: -15, endAt: 75, color: "black", alpha: 1 },
+		secondHand:       { lineWidth: 4, startAt: -20, endAt: 85, color: "red", alpha: 1 },
+		secondDecoration: { lineWidth: 2, startAt: 70, radius: 4, fillColor: "red", color: "red", alpha: 0 }
+	},
+	
+	KnightNight: {
+		outerBorder:      { lineWidth: 99, radius: 50, color: "black", alpha: 0.6 },
+		smallIndicator:   { lineWidth: 2, startAt: 88, endAt: 92, color: "white", alpha: 0 },
+		largeIndicator:   { lineWidth: 8, startAt: 80, endAt: 92, color: "white", alpha: 1 },
+		hourHand:         { lineWidth: 12, startAt: -15, endAt: 50, color: "white", alpha: 1 },
+		minuteHand:       { lineWidth: 10, startAt: -15, endAt: 75, color: "white", alpha: 1 },
+		secondHand:       { lineWidth: 4, startAt: -20, endAt: 85, color: "red", alpha: 1 },
+		secondDecoration: { lineWidth: 2, startAt: 70, radius: 4, fillColor: "red", color: "red", alpha: 0 }
 	}
 };
