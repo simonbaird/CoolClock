@@ -82,7 +82,7 @@ CoolClock.prototype = {
 		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
 		this.logClock       = typeof options.logClock == "boolean" ? options.logClock : false;
 		this.logClockRev    = typeof options.logClock == "boolean" ? options.logClockRev : false;
-
+		
 		this.tickDelay      = CoolClock.config[ this.showSecondHand ? "tickDelay" : "longTickDelay" ];
 
 		// Get the canvas element
@@ -105,9 +105,15 @@ CoolClock.prototype = {
 		// Keep track of this object
 		CoolClock.config.clockTracker[this.canvasId] = this;
 
+		// should we be running the clock?
+		this.active = true;
+		this.tickTimeout = null;
+
 		// Start the clock going
 		this.tick();
-
+		
+		
+		
 		return this;
 	},
 
@@ -269,21 +275,31 @@ CoolClock.prototype = {
 
 	// Set timeout to trigger a tick in the future
 	nextTick: function() {
-		setTimeout("CoolClock.config.clockTracker['"+this.canvasId+"'].tick()",this.tickDelay);
+		this.tickTimeout = setTimeout("CoolClock.config.clockTracker['"+this.canvasId+"'].tick()",this.tickDelay);
 	},
 
 	// Check the canvas element hasn't been removed
 	stillHere: function() {
 		return document.getElementById(this.canvasId) != null;
 	},
-
+	
+	stop: function() {
+	        this.active = false;
+		clearTimeout(this.tickTimeout);
+        },
+	start: function() {
+	        if (!this.active) {
+		    this.active = true;
+		    this.tick();
+		}
+        },
 	// Main tick handler. Refresh the clock then setup the next tick
 	tick: function() {
-		if (this.stillHere()) {
+		if (this.stillHere() && this.active) {
 			this.refreshDisplay()
 			this.nextTick();
 		}
-	}
+        }
 };
 
 // Find all canvas elements that have the CoolClock class and turns them into clocks
@@ -312,6 +328,11 @@ CoolClock.findAndCreateClocks = function() {
 		}
 	}
 };
+
+CoolClock.stopClocks = function() {
+
+
+}
 
 // If you don't have jQuery then you need a body onload like this: <body onload="CoolClock.findAndCreateClocks()">
 // If you do have jQuery and it's loaded already then we can do it right now
