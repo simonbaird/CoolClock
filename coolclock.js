@@ -82,7 +82,7 @@ CoolClock.prototype = {
 		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
 		this.logClock       = typeof options.logClock == "boolean" ? options.logClock : false;
 		this.logClockRev    = typeof options.logClock == "boolean" ? options.logClockRev : false;
-		
+
 		this.tickDelay      = CoolClock.config[ this.showSecondHand ? "tickDelay" : "longTickDelay" ];
 
 		// Get the canvas element
@@ -111,9 +111,7 @@ CoolClock.prototype = {
 
 		// Start the clock going
 		this.tick();
-		
-		
-		
+
 		return this;
 	},
 
@@ -282,24 +280,28 @@ CoolClock.prototype = {
 	stillHere: function() {
 		return document.getElementById(this.canvasId) != null;
 	},
-	
+
+	// Stop this clock
 	stop: function() {
-	        this.active = false;
+		this.active = false;
 		clearTimeout(this.tickTimeout);
-        },
+	},
+
+	// Start this clock
 	start: function() {
-	        if (!this.active) {
-		    this.active = true;
-		    this.tick();
+		if (!this.active) {
+			this.active = true;
+			this.tick();
 		}
-        },
+	},
+
 	// Main tick handler. Refresh the clock then setup the next tick
 	tick: function() {
 		if (this.stillHere() && this.active) {
 			this.refreshDisplay()
 			this.nextTick();
 		}
-        }
+	}
 };
 
 // Find all canvas elements that have the CoolClock class and turns them into clocks
@@ -328,11 +330,6 @@ CoolClock.findAndCreateClocks = function() {
 		}
 	}
 };
-
-CoolClock.stopClocks = function() {
-
-
-}
 
 // If you don't have jQuery then you need a body onload like this: <body onload="CoolClock.findAndCreateClocks()">
 // If you do have jQuery and it's loaded already then we can do it right now
