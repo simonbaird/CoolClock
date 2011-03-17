@@ -1,5 +1,5 @@
 /**
- * CoolClock 2.1.3
+ * CoolClock 2.1.4
  * Copyright 2010, Simon Baird
  * Released under the BSD License.
  *
@@ -109,6 +109,10 @@ CoolClock.prototype = {
 
 		// Keep track of this object
 		CoolClock.config.clockTracker[this.canvasId] = this;
+
+		// should we be running the clock?
+		this.active = true;
+		this.tickTimeout = null;
 
 		// Start the clock going
 		this.tick();
@@ -251,7 +255,7 @@ CoolClock.prototype = {
 
 		// Draw the hands
 		if (skin.hourHand)
-			this.radialLineAtAngle(this.tickAngle(((hour%12)*5 + min/60.0)),skin.hourHand);
+			this.radialLineAtAngle(this.tickAngle(((hour%12)*5 + min/12.0)),skin.hourHand);
 
 		if (skin.minuteHand)
 			this.radialLineAtAngle(this.tickAngle((min + sec/60.0)),skin.minuteHand);
@@ -280,7 +284,7 @@ CoolClock.prototype = {
 
 	// Set timeout to trigger a tick in the future
 	nextTick: function() {
-		setTimeout("CoolClock.config.clockTracker['"+this.canvasId+"'].tick()",this.tickDelay);
+		this.tickTimeout = setTimeout("CoolClock.config.clockTracker['"+this.canvasId+"'].tick()",this.tickDelay);
 	},
 
 	// Check the canvas element hasn't been removed
@@ -288,9 +292,23 @@ CoolClock.prototype = {
 		return document.getElementById(this.canvasId) != null;
 	},
 
+	// Stop this clock
+	stop: function() {
+		this.active = false;
+		clearTimeout(this.tickTimeout);
+	},
+
+	// Start this clock
+	start: function() {
+		if (!this.active) {
+			this.active = true;
+			this.tick();
+		}
+	},
+
 	// Main tick handler. Refresh the clock then setup the next tick
 	tick: function() {
-		if (this.stillHere()) {
+		if (this.stillHere() && this.active) {
 			this.refreshDisplay()
 			this.nextTick();
 		}
