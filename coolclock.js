@@ -241,20 +241,32 @@ CoolClock.prototype = {
 				this.renderRadius+this.renderRadius/2
 			);
 		}
+		
+		var hourA = (hour%12)*5 + min/12.0,
+		    minA = min + sec/60.0,
+		    secA = sec;
 
 		// Draw the hands
 		if (skin.hourHand)
-			this.radialLineAtAngle(this.tickAngle(((hour%12)*5 + min/12.0)),skin.hourHand);
+			this.radialLineAtAngle(this.tickAngle(hourA),skin.hourHand);
 
 		if (skin.minuteHand)
-			this.radialLineAtAngle(this.tickAngle((min + sec/60.0)),skin.minuteHand);
+			this.radialLineAtAngle(this.tickAngle(minA),skin.minuteHand);
 
 		if (this.showSecondHand && skin.secondHand)
-			this.radialLineAtAngle(this.tickAngle(sec),skin.secondHand);
+			this.radialLineAtAngle(this.tickAngle(secA),skin.secondHand);
 
-		// Second hand decoration doesn't render right in IE so lets turn it off
-		if (!CoolClock.config.isIE && this.showSecondHand && skin.secondDecoration)
-			this.radialLineAtAngle(this.tickAngle(sec),skin.secondDecoration);
+		// Hands decoration - not in IE
+		if  (!CoolClock.config.isIE) {
+			if (skin.hourDecoration)
+				this.radialLineAtAngle(this.tickAngle(hourA), skin.hourDecoration);
+				
+			if (skin.minDecoration)
+				this.radialLineAtAngle(this.tickAngle(minA), skin.minDecoration);
+
+			if (this.showSecondHand && skin.secondDecoration)
+				this.radialLineAtAngle(this.tickAngle(secA),skin.secondDecoration);
+		}
 	},
 
 	// Check the time and display the clock
