@@ -76,6 +76,11 @@ CoolClock.prototype = {
 		// Parse and store the options
 		this.canvasId       = options.canvasId;
 		this.skinId         = options.skinId || CoolClock.config.defaultSkin;
+		// If there is a corresponding nightskin, use that, otherwise just use the reagular skin.
+		if(CoolClock.config.skins[this.skinId+'Night'] != null) this.skinIdNight = this.skinId+'Night';
+		else this.skinId_night = this.skinId;
+		// Variable to keep track of the dayskin when the skin switches to Nightskin
+		this.skinIdDay = this.skinId;
 		this.displayRadius  = options.displayRadius || CoolClock.config.defaultRadius;
 		this.showSecondHand = typeof options.showSecondHand == "boolean" ? options.showSecondHand : true;
 		this.gmtOffset      = (options.gmtOffset != null && options.gmtOffset != '') ? parseFloat(options.gmtOffset) : null;
@@ -216,6 +221,12 @@ CoolClock.prototype = {
 	},
 
 	render: function(hour,min,sec) {
+		//Detect day/night and set appropriate skin.
+		if(hour >= 18 || hour < 6) {
+			this.skinId = this.skinIdNight;
+		} else {
+			this.skinId = this.skinIdDay;
+		}
 		// Get the skin
 		var skin = CoolClock.config.skins[this.skinId];
 		if (!skin) skin = CoolClock.config.skins[CoolClock.config.defaultSkin];

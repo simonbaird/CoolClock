@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title>Day/Night Coolclock</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+		<!--[if IE]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
+		<script src="../coolclock.js" type="text/javascript"></script>
+		<script src="../moreskins.js" type="text/javascript"></script>
+	</head>
+	<body>
+			<table border="0" align="center">
+			<tr>
+				<td align="center" style="background: transparent url('clock_bg.png') no-repeat; padding: 4px;"><canvas id="NewYorkTime" class="CoolClock:Knight:20::-5"></canvas></td>
+				<td>&nbsp;&nbsp;&nbsp;</td>
+				<td align="center" style="background: transparent url('clock_bg.png') no-repeat; padding: 4px;"><canvas id="LondonTime" class="CoolClock:Knight:20::0"></canvas></td>
+				<td>&nbsp;&nbsp;&nbsp;</td>
+				<td align="center" style="background: transparent url('clock_bg.png') no-repeat; padding: 4px;"><canvas id="NewDelhiTime" class="CoolClock:Knight:20::+5.5"></canvas></td>
+				<td>&nbsp;&nbsp;&nbsp;</td>
+				<td align="center" style="background: transparent url('clock_bg.png') no-repeat; padding: 4px;"><canvas id="TokyoTime" class="CoolClock:Knight:20::+9"></canvas></td>
+			</tr>
+			<tr style="font-size: 10px">
+				<td align="center">New York</td>
+				<td>&nbsp;&nbsp;&nbsp;</td>
+				<td align="center">London</td>
+				<td>&nbsp;&nbsp;&nbsp;</td>
+				<td align="center">New Delhi</td>
+				<td>&nbsp;&nbsp;&nbsp;</td>
+				<td align="center">Tokyo</td>
+			</tr>
+		</table>
+		<hr style="border: 0px; border-bottom: 1px dotted rgb(201, 201, 201);" />
+		<script type="text/javascript">
+			CoolClock.findAndCreateClocks();
+		</script>
+	</body>
+</html>
