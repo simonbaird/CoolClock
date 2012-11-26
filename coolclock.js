@@ -10,7 +10,7 @@
 
 // Constructor for CoolClock objects
 window.CoolClock = function(options) {
-	return this.init(options);
+	return CoolClock.prototype.init(options);
 }
 
 // Config contains some defaults, and clock skins
