@@ -77,6 +77,7 @@ CoolClock.prototype = {
 		this.canvasId       = options.canvasId;
 		this.skinId         = options.skinId || CoolClock.config.defaultSkin;
 		this.displayRadius  = options.displayRadius || CoolClock.config.defaultRadius;
+		this.renderRadius   = options.renderRadius || CoolClock.config.renderRadius;
 		this.showSecondHand = typeof options.showSecondHand == "boolean" ? options.showSecondHand : true;
 		this.gmtOffset      = (options.gmtOffset != null && options.gmtOffset != '') ? parseFloat(options.gmtOffset) : null;
 		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
@@ -94,8 +95,13 @@ CoolClock.prototype = {
 		this.canvas.style.width = this.displayRadius*2 + "px";
 		this.canvas.style.height = this.displayRadius*2 + "px";
 
-		// Explain me please...?
-		this.renderRadius = CoolClock.config.renderRadius;
+		// Determine by what factor to relate skin values to canvas positions.
+		// renderRadius is the max skin positional value before leaving the
+		// canvas. displayRadius is half the width and height of the canvas in
+		// pixels. If they are equal, there is a 1:1 relation of skin position
+		// values to canvas pixels. Setting both to 200 allows 100px of space
+		// around clock skins to add your own things: this is due to current
+		// skins maxing out at a positional value of 100.
 		this.scale = this.displayRadius / this.renderRadius;
 
 		// Initialise canvas context
