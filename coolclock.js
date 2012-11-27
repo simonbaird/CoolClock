@@ -278,6 +278,10 @@ CoolClock.prototype = {
 			if (this.showSecondHand && skin.secondDecoration)
 				this.radialLineAtAngle(this.tickAngle(secA),skin.secondDecoration);
 		}
+
+		if (this.extraRender) {
+			this.extraRender(hour,min,sec);
+		}
 	},
 
 	// Check the time and display the clock
