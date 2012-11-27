@@ -20,6 +20,7 @@ CoolClock.config = {
 	defaultRadius: 85,
 	renderRadius: 100,
 	defaultSkin: "chunkySwiss",
+	defaultFont: "15px sans-serif",
 	// Should be in skin probably...
 	// (TODO: allow skinning of digital display)
 	showSecs: true,
@@ -76,6 +77,7 @@ CoolClock.prototype = {
 		// Parse and store the options
 		this.canvasId       = options.canvasId;
 		this.skinId         = options.skinId || CoolClock.config.defaultSkin;
+		this.font           = options.font || CoolClock.config.defaultFont;
 		this.displayRadius  = options.displayRadius || CoolClock.config.defaultRadius;
 		this.renderRadius   = options.renderRadius || CoolClock.config.renderRadius;
 		this.showSecondHand = typeof options.showSecondHand == "boolean" ? options.showSecondHand : true;
@@ -155,12 +157,17 @@ CoolClock.prototype = {
 	},
 
 	// Draw some text centered vertically and horizontally
-	drawTextAt: function(theText,x,y) {
+	drawTextAt: function(theText,x,y,skin) {
+		if (!skin) skin = this.getSkin();
 		this.ctx.save();
-		this.ctx.font = '15px sans-serif';
+		this.ctx.font = skin.font || this.font;
 		var tSize = this.ctx.measureText(theText);
-		if (!tSize.height) tSize.height = 15; // no height in firefox.. :(
-		this.ctx.fillText(theText,x - tSize.width/2,y - tSize.height/2);
+		// TextMetrics rarely returns a height property: use baseline instead.
+		if (!tSize.height) {
+			tSize.height = 0;
+			this.ctx.textBaseline = 'middle';
+		}
+		this.ctx.fillText(theText, x - tSize.width/2, y - tSize.height/2);
 		this.ctx.restore();
 	},
 
@@ -222,8 +229,7 @@ CoolClock.prototype = {
 
 	render: function(hour,min,sec) {
 		// Get the skin
-		var skin = CoolClock.config.skins[this.skinId];
-		if (!skin) skin = CoolClock.config.skins[CoolClock.config.defaultSkin];
+		var skin = this.getSkin();
 
 		// Clear
 		this.ctx.clearRect(0,0,this.renderRadius*2,this.renderRadius*2);
@@ -318,6 +324,12 @@ CoolClock.prototype = {
 			this.refreshDisplay()
 			this.nextTick();
 		}
+	},
+
+	getSkin: function() {
+		var skin = CoolClock.config.skins[this.skinId];
+		if (!skin) skin = CoolClock.config.skins[CoolClock.config.defaultSkin];
+		return skin;
 	}
 };
 
