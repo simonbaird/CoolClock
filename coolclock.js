@@ -147,8 +147,7 @@ CoolClock.prototype = {
 			this.ctx.fillStyle = skin.fillColor
 			this.ctx.fill();
 		}
-		else {
-			// XXX why not stroke and fill
+		if (skin.color) {
 			this.ctx.strokeStyle = skin.color;
 			this.ctx.stroke();
 		}
