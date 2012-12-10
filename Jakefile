@@ -15,8 +15,7 @@
 //   jake -T # see other tasks
 //
 
-var fs   = require('fs');
-var exec = require('child_process').exec;
+var fs = require('fs');
 
 // (Is this kind of thing okay?)
 String.prototype.chomp               = function() { return this.replace(/\n$/, '');    }
@@ -68,14 +67,14 @@ task('buildAll', [plainTargetVer, miniTargetVer, plainTarget, miniTarget]);
 directory(outputDir);
 
 file(miniTargetVer, [outputDir, mainSource, 'Jakefile'], function(){
-  exec('(echo "'+shortComment+'"; '+uglifyCommand+') > '+miniTargetVer, function(){
+  jake.exec('(echo "'+shortComment+'"; '+uglifyCommand+') > '+miniTargetVer, function(){
     console.log(miniTargetVer);
     complete();
   });
 }, true);
 
 file(plainTargetVer, [outputDir, mainSource, 'Jakefile'], function(){
-  exec('(echo "'+longComment+'"; cat '+mainSource+';) > '+plainTargetVer, function(){
+  jake.exec('(echo "'+longComment+'"; cat '+mainSource+';) > '+plainTargetVer, function(){
     console.log(plainTargetVer);
     complete();
   });
@@ -83,22 +82,14 @@ file(plainTargetVer, [outputDir, mainSource, 'Jakefile'], function(){
 
 // Just copying these seems a but strange, but what else..?
 file(miniTarget, [miniTargetVer], function() {
-  exec('cp '+miniTargetVer+' '+miniTarget, function(){
-    console.log(miniTarget);
-    complete();
-  });
-}, true);
+  jake.cpR(miniTargetVer, miniTarget);
+});
 
 file(plainTarget, [plainTargetVer], function() {
-  exec('cp '+plainTargetVer+' '+plainTarget, function(){
-    console.log(plainTarget);
-    complete();
-  });
-}, true);
+  jake.cpR(plainTargetVer, plainTarget)
+});
 
 desc('Remove generated files');
 task('clean', [], function(){
-  exec('rm -rf '+outputDir, function(){
-    complete();
-  });
+  jake.rmRf(outputDir);
 }, true);
