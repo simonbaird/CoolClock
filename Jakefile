@@ -98,5 +98,7 @@ file(plainTarget, [plainTargetVer], function() {
 
 desc('Remove generated files');
 task('clean', [], function(){
-  exec('rm -rf '+outputDir+'');
-});
+  exec('rm -rf '+outputDir, function(){
+    complete();
+  });
+}, true);
