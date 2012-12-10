@@ -62,24 +62,19 @@ var shortComment = [
 //-----------------------------------------------------------------------
 task('default', ['buildAll']);
 
-// directory(outputDir) doesn't work?? :(
-task('createDirectory', [], function(){
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir);
-  }
-});
-
 desc('Build all targets');
-task('buildAll', ['createDirectory', plainTargetVer, miniTargetVer, plainTarget, miniTarget]);
+task('buildAll', [plainTargetVer, miniTargetVer, plainTarget, miniTarget]);
 
-file(miniTargetVer, [mainSource, 'Jakefile'], function(){
+directory(outputDir);
+
+file(miniTargetVer, [outputDir, mainSource, 'Jakefile'], function(){
   exec('(echo "'+shortComment+'"; '+uglifyCommand+') > '+miniTargetVer, function(){
     console.log(miniTargetVer);
     complete();
   });
 }, true);
 
-file(plainTargetVer, [mainSource, 'Jakefile'], function(){
+file(plainTargetVer, [outputDir, mainSource, 'Jakefile'], function(){
   exec('(echo "'+longComment+'"; cat '+mainSource+';) > '+plainTargetVer, function(){
     console.log(plainTargetVer);
     complete();
