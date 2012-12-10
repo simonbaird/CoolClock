@@ -1,12 +1,3 @@
-/**
- * CoolClock 2.1.4
- * Copyright 2010, Simon Baird
- * Released under the BSD License.
- *
- * Display an analog clock using canvas.
- * http://randomibis.com/coolclock/
- *
- */
 
 // Constructor for CoolClock objects
 window.CoolClock = function(options) {
@@ -252,7 +243,7 @@ CoolClock.prototype = {
 				this.renderRadius+this.renderRadius/2
 			);
 		}
-		
+
 		var hourA = (hour%12)*5 + min/12.0,
 		    minA = min + sec/60.0,
 		    secA = sec;
@@ -271,7 +262,7 @@ CoolClock.prototype = {
 		if  (!CoolClock.config.isIE) {
 			if (skin.hourDecoration)
 				this.radialLineAtAngle(this.tickAngle(hourA), skin.hourDecoration);
-				
+
 			if (skin.minDecoration)
 				this.radialLineAtAngle(this.tickAngle(minA), skin.minDecoration);
 
