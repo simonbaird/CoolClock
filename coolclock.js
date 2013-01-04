@@ -1,4 +1,3 @@
-
 // Constructor for CoolClock objects
 window.CoolClock = function(options) {
 	return this.init(options);
@@ -225,8 +224,8 @@ CoolClock.prototype = {
 		// Clear
 		this.ctx.clearRect(0,0,this.renderRadius*2,this.renderRadius*2);
 
-		// Draw the outer edge of the clock
-		if (skin.outerBorder)
+		// Draw the outer edge of the clock - not in IE
+		if (skin.outerBorder && !CoolClock.config.isIE)
 			this.fullCircleAt(this.renderRadius,this.renderRadius,skin.outerBorder);
 
 		// Draw the tick marks. Every 5th one is a big one
