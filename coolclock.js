@@ -73,6 +73,7 @@ CoolClock.prototype = {
 		this.renderRadius   = options.renderRadius || CoolClock.config.renderRadius;
 		this.showSecondHand = typeof options.showSecondHand == "boolean" ? options.showSecondHand : true;
 		this.gmtOffset      = (options.gmtOffset != null && options.gmtOffset != '') ? parseFloat(options.gmtOffset) : null;
+		this.referenceTime  = (options.referenceTime && options.referenceTime.length > 0) ? parseInt(options.referenceTime) : null;
 		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
 		this.logClock       = typeof options.logClock == "boolean" ? options.logClock : false;
 		this.logClockRev    = typeof options.logClock == "boolean" ? options.logClockRev : false;
@@ -107,6 +108,9 @@ CoolClock.prototype = {
 		// should we be running the clock?
 		this.active = true;
 		this.tickTimeout = null;
+
+		// the current interval
+		this.currentInterval = 0;
 
 		// Start the clock going
 		this.tick();
@@ -278,20 +282,37 @@ CoolClock.prototype = {
 	// Check the time and display the clock
 	refreshDisplay: function() {
 		var now = new Date();
-		if (this.gmtOffset != null) {
-			// Use GMT + gmtOffset
+
+		// Use GMT + gmtOffset
+		if (this.gmtOffset !== null) {
 			var offsetNow = new Date(now.valueOf() + (this.gmtOffset * 1000 * 60 * 60));
-			this.render(offsetNow.getUTCHours(),offsetNow.getUTCMinutes(),offsetNow.getUTCSeconds());
+			return this.render(offsetNow.getUTCHours(),offsetNow.getUTCMinutes(),offsetNow.getUTCSeconds());
 		}
-		else {
-			// Use local time
-			this.render(now.getHours(),now.getMinutes(),now.getSeconds());
+
+		if (this.referenceTime !== null) {
+			now = new Date(this.referenceTime);
 		}
+
+		return this.render(now.getHours(), now.getMinutes(), now.getSeconds());
 	},
 
 	// Set timeout to trigger a tick in the future
 	nextTick: function() {
-		this.tickTimeout = setTimeout("CoolClock.config.clockTracker['"+this.canvasId+"'].tick()",this.tickDelay);
+		var scope = this;
+
+		if (!scope.nextTickFn) {
+			scope.nextTickFn = function() {
+				scope.currentInterval++;
+
+				CoolClock.config.clockTracker[scope.canvasId].tick();
+
+				if (scope.referenceTime !== null) {
+					scope.referenceTime += scope.tickDelay;
+				}
+			};
+		}
+
+		scope.tickTimeout = setTimeout(scope.nextTickFn, (scope.referenceTime) ? 1000 :  scope.tickDelay);
 	},
 
 	// Check the canvas element hasn't been removed
@@ -316,7 +337,7 @@ CoolClock.prototype = {
 	// Main tick handler. Refresh the clock then setup the next tick
 	tick: function() {
 		if (this.stillHere() && this.active) {
-			this.refreshDisplay()
+			this.refreshDisplay();
 			this.nextTick();
 		}
 	},
@@ -347,9 +368,10 @@ CoolClock.findAndCreateClocks = function() {
 				displayRadius:  fields[2],
 				showSecondHand: fields[3]!='noSeconds',
 				gmtOffset:      fields[4],
-				showDigital:    fields[5]=='showDigital',
-				logClock:       fields[6]=='logClock',
-				logClockRev:    fields[6]=='logClockRev'
+				referenceTime:  ($ && $.isNumeric(fields[5]) || !isNaN(fields[5])) ? fields[5] : null,
+				showDigital:    fields[6]=='showDigital',
+				logClock:       fields[7]=='logClock',
+				logClockRev:    fields[7]=='logClockRev'
 			});
 		}
 	}
