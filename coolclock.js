@@ -3,6 +3,13 @@ window.CoolClock = function(options) {
 	return this.init(options);
 }
 
+// Fix for browsers that don't support Date.now()
+if (!Date.now) {
+	Date.now = function now() {
+		return new Date().getTime();
+	};
+}
+
 // Config contains some defaults, some skins, and some options
 CoolClock.config = {
 	// General options and defaults; see README.md
@@ -286,13 +293,18 @@ CoolClock.prototype = {
 		if (this.showSecondHand && skin.secondDecoration)
 			this.radialLineAtAngle(this.tickAngle(secA),skin.secondDecoration);
 
-		// Write the time
-		if (this.showDigital) {
+		// Draw the clock title
+		if ((this.clockTitle != null) && (this.clockTitle != ''))
+		{
 			this.drawTextAt(
 					this.clockTitle,
 					this.renderRadius,
 					this.renderRadius + this.renderRadius * textSkin.titleOffset
 				       );
+		}
+
+		// Draw the digital clock
+		if (this.showDigital) {
 			this.drawTextAt(
 					this.timeText(hour,min,sec),
 					this.renderRadius,
@@ -308,8 +320,13 @@ CoolClock.prototype = {
 	// Correct the time and call render()
 	refreshDisplay: function() {
 		var now = Date.now();
-		now += CoolClock.config.serverTimeOffset;
-		now = new Date(now);
+		if(CoolClock.config.serverTimeOffset != 0)
+		{
+			// If necessary, synchronize with web server time
+			now += CoolClock.config.serverTimeOffset;
+			now = new Date(now);
+		}
+
 		if (this.gmtOffset != null) {
 			// Use GMT + gmtOffset
 			var offsetNow = new Date(now.valueOf() + (this.gmtOffset * 1000 * 60 * 60));
@@ -389,7 +406,7 @@ CoolClock.calcServerTimeOffset = function() {
 				var lt = 1000*Math.floor((lta+ltb)/2000);
 				CoolClock.config.serverTimeOffset = st-lt;
 				// testing: alert("ltb=" + ltb.toString() + " lta=" + lta.toString() + " lt=" + lt.toString() + " st=" + st.toString() + " offset=" + (st-lt).toString());
-				
+
 				CoolClock.startAllClocks();
 			});
 		}
