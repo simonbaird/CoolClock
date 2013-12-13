@@ -152,9 +152,6 @@ CoolClock.prototype = {
 		this.active = true;
 		this.tickTimeout = null;
 
-		// Start the clock going
-		//this.tick();
-
 		return this;
 	},
 
