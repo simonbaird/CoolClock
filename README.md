@@ -1,11 +1,10 @@
-
 CoolClock - The Javascript Analog Clock
 =======================================
 
 About CoolClock
 ---------------
 
-This is my fork of CoolClock, a customisable javascript analog clock.
+This is my fork of CoolClock, a customisable JavaScript analog clock.
 
 New Features
 ------------
