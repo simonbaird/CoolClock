@@ -248,7 +248,7 @@ CoolClock.prototype = {
 	},
 
 	// Draw the clock
-	render: function(hour,min,sec) {
+	render: function(hour,min,sec,msec) {
 		// Get the skins
 		var skin = this.getSkin();
 		var textSkin = this.getTextSkin();
@@ -268,7 +268,7 @@ CoolClock.prototype = {
 
 		var hourA = (hour%12)*5 + min/12.0,
 		    minA = min + sec/60.0,
-		    secA = sec;
+		    secA = sec+msec/1000;
 
 		// Draw the hands
 		if (skin.hourHand)
@@ -327,11 +327,11 @@ CoolClock.prototype = {
 		if (this.gmtOffset != null) {
 			// Use GMT + gmtOffset
 			var offsetNow = new Date(now.valueOf() + (this.gmtOffset * 1000 * 60 * 60));
-			this.render(offsetNow.getUTCHours(),offsetNow.getUTCMinutes(),offsetNow.getUTCSeconds());
+			this.render(offsetNow.getUTCHours(),offsetNow.getUTCMinutes(),offsetNow.getUTCSeconds(),offsetNow.getUTCMilliseconds());
 		}
 		else {
 			// Use local time
-			this.render(now.getHours(),now.getMinutes(),now.getSeconds());
+			this.render(now.getHours(),now.getMinutes(),now.getSeconds(),now.getMilliseconds());
 		}
 	},
 
