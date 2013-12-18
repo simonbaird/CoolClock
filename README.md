@@ -66,13 +66,14 @@ Somewhere in the body of your html file add the following:
 <canvas id="clockid" class="CoolClock" _showDigital _clockTitle="Local Time"></canvas>
 ````
 
-Extra attributes of the canvas tags will control the appearance of the clock.
+Extra attributes of the canvas tag will control the appearance of the clock.
 The fields are as follows:
 
 <table>
 <tr><td>class</td><td>Required</td>
 
-<td>Must be set to CoolClock. Otherwise, your canvas will be left alone.</td></tr>
+<td>Must be set to "CoolClock". Otherwise, your canvas will be left
+alone.</td></tr>
 
 <tr><td>`_skinId`</td><td>Optional. Default is "swissRail"</td>
 
@@ -97,7 +98,7 @@ miliUbuntu.</td></tr>
 <tr><td>`_secondHand`</td><td>Optional. Default is "tick"</td>
 
 <td>Set this to "none" if you want a clock with no second hand. Set it to
-"tick" to have a second hand that ticks every second. Or to "smooth" for a one
+"tick" to have a second hand that ticks every second. Or to "smooth" for one
 that rotates continuously. It should be noted that "smooth" consumes a lot of
 CPU time.</td></tr>
 
@@ -106,12 +107,12 @@ CPU time.</td></tr>
 <td>If you don't specify anything you get local time (or server time, if your
 clocks are sync'ed with the web server). If you specify a value (in hours)
 it will be used as an offset from GMT (UTC). Eg, put -5 to indicate 5 hours
-behind GMT. You can specify fractions of hours, eg +2.5</td></tr>
+behind GMT. You can specify fractions of hours, eg +2.5.</td></tr>
 
 <tr><td>`_showDigital`</td><td>Optional</td>
 
 <td>If you define this tag then a digital clock will be rendered on top of the
-clock face</td></tr>
+clock face.</td></tr>
 
 <tr><td>`_clockTitle`</td><td>Optional</td>
 

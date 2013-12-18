@@ -120,7 +120,7 @@ CoolClock.prototype = {
 		this.displayRadius  = options.displayRadius ? parseInt(options.displayRadius) : CoolClock.config.defaultDisplayRadius;
 		this.renderRadius   = options.renderRadius ? parseInt(options.renderRadius) : CoolClock.config.defaultRenderRadius;
 		this.secondHand     = options.secondHand || CoolClock.config.defaultSecondHand;
-		this.gmtOffset      = options.gmtOffset ? parseInt(options.gmtOffset) : null;
+		this.gmtOffset      = options.gmtOffset ? parseFloat(options.gmtOffset) : null;
 		this.showDigital    = (options.showDigital != null) || false;
 		this.clockTitle     = options.clockTitle || CoolClock.config.defaultClockTitle;
 		this.logClock       = options.logClock || CoolClock.config.defaultLogClock;
