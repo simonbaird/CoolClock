@@ -327,11 +327,19 @@ CoolClock.prototype = {
 		if (this.gmtOffset != null) {
 			// Use GMT + gmtOffset
 			var offsetNow = new Date(now.valueOf() + (this.gmtOffset * 1000 * 60 * 60));
-			this.render(offsetNow.getUTCHours(),offsetNow.getUTCMinutes(),offsetNow.getUTCSeconds(),offsetNow.getUTCMilliseconds());
+			this.render(offsetNow.getUTCHours(),
+				    offsetNow.getUTCMinutes(),
+				    offsetNow.getUTCSeconds(),
+				    this.tickDelay < 1000 ? offsetNow.getUTCMilliseconds() : 0
+				);
 		}
 		else {
 			// Use local time
-			this.render(now.getHours(),now.getMinutes(),now.getSeconds(),now.getMilliseconds());
+			this.render(now.getHours(),
+				    now.getMinutes(),
+				    now.getSeconds(),
+				    this.tickDelay < 1000 ? now.getMilliseconds() : 0
+				);
 		}
 	},
 
@@ -393,7 +401,9 @@ CoolClock.isCanvasSupported = function(){
 CoolClock.calcServerTimeOffset = function() {
 	if (window.jQuery && CoolClock.config.useServerTime)
 	{
-		// Retrieve web server time and give it to CoolClock, then start all clocks
+		// If synchronizing with web server time:
+		//   Retrieve web server time and give it to CoolClock, then start all clocks
+		//   Note that server time offset will be rounded to the nearest second
 		try {
 			var ltb = Date.now();
 			jQuery.post("/", null, function (data, status, header) {
@@ -412,7 +422,8 @@ CoolClock.calcServerTimeOffset = function() {
 		}
 	}
 	else {
-		// Just start all clocks
+		// Otherwise:
+		//   Just start all clocks
 		CoolClock.startAllClocks();
 	}
 }
