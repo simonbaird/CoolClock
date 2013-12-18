@@ -9,6 +9,9 @@ This is my fork of CoolClock, a customisable JavaScript analog clock.
 New Features
 ------------
 
+- **(18-Dec-2013)** - Clock parameters are now passed via canvas class
+  attributes.
+- **(18-Dec-2013)** - Seconds hand can now have a "smooth" motion".
 - **(11-Dec-2013)** - Removed all cruft relating to Internet Explorer and
   ExplorerCanvas. The clock works fine in IE 9.0 or later without them.
 - **(11-Dec-2013)** - The clock can now synchronize itself with the web
@@ -60,82 +63,82 @@ like this:
 Somewhere in the body of your html file add the following:
 
 ````Html
-<canvas id="clockid" class="CoolClock:swissRail:std:::+2:showDigital:Nicosia:::"></canvas>
+<canvas id="clockid" class="CoolClock" _showDigital _clockTitle="Local Time"></canvas>
 ````
 
-The colon delimited fields after CoolClock in the class control the appearance
-of the clock. The fields are as follows:
+Extra attributes of the canvas tags will control the appearance of the clock.
+The fields are as follows:
 
 <table>
-<tr><td>`CoolClock`</td><td>Required</td>
+<tr><td>class</td><td>Required</td>
 
-<td>Without that your canvas will be left alone</td></tr>
+<td>Must be set to CoolClock. Otherwise, your canvas will be left alone.</td></tr>
 
-<tr><td>`Skin`</td><td>Optional. Default is "swissRail"</td>
+<tr><td>`_skinId`</td><td>Optional. Default is "swissRail"</td>
 
 <td>Specifies which skin to use for rendering the clock face. Four skins are
 defined in coolclock.js: swissRail, chunkySwiss, chunkySwissOnBlack and
 miliUbuntu. A lot more can be found in moreskins.js.</td></tr>
 
-<tr><td>`textSkin`</td><td>Optional. Default is "std"</td>
+<tr><td>`_textSkinId`</td><td>Optional. Default is "std"</td>
 
 <td>Specifies which skin to use for rendering the title and the digital clock.
 Three such skins are defined for you: std, stdOnBlack and
 miliUbuntu.</td></tr>
 
-<tr><td>`Radius`</td><td>Optional. Default is 85</td>
+<tr><td>`_displayRadius`</td><td>Optional. Default is 85</td>
 
 <td>Specifies the radius in pixels of the clock.</td></tr>
 
-<tr><td>`noSeconds`</td><td>Optional</td>
+<tr><td>`_renderRadius`</td><td>Optional. Default is 100</td>
 
-<td>If you include "noSeconds" here then the clock will have no second hand.
-Use if your CPU usage is too high.</td></tr>
+<td>Specifies canvas size in pixels.</td></tr>
 
-<tr><td>`gmtOffset`</td><td>Optional</td>
+<tr><td>`_secondHand`</td><td>Optional. Default is "tick"</td>
+
+<td>Set this to "none" if you want a clock with no second hand. Set it to
+"tick" to have a second hand that ticks every second. Or to "smooth" for a one
+that rotates continuously. It should be noted that "smooth" consumes a lot of
+CPU time.</td></tr>
+
+<tr><td>`_gmtOffset`</td><td>Optional</td>
 
 <td>If you don't specify anything you get local time (or server time, if your
-clocks are sync'ed with the web server). If you specify a value here (in hours)
+clocks are sync'ed with the web server). If you specify a value (in hours)
 it will be used as an offset from GMT (UTC). Eg, put -5 to indicate 5 hours
 behind GMT. You can specify fractions of hours, eg +2.5</td></tr>
 
-<tr><td>`showDigital`</td><td>Optional</td>
+<tr><td>`_showDigital`</td><td>Optional</td>
 
-<td>If you put "showDigital" here then a digital clock will be rendered on top
-of the clock face</td></tr>
+<td>If you define this tag then a digital clock will be rendered on top of the
+clock face</td></tr>
 
-<tr><td>`clockTitle`</td><td>Optional</td>
+<tr><td>`_clockTitle`</td><td>Optional</td>
 
 <td>Add some text here and it will be rendered on top of the clock face, as a
-title to the clock. Leave it empty if you don't want a title. Due to the nature
-of the class property, if you need spaces in titles, you must substitute them
-with underscores. For example: "New_York".</td></tr>
+title to the clock.</td></tr>
 
 <tr><td>`logClock`</td><td>Optional</td>
 
-<td>Put "logClock" here, and you'll get a logarithmic clock.</td></tr>
-
-<tr><td>`logClockRev`</td><td>Optional</td>
-
-<td>Similarly, put "logClockRev" to get a reverse logarithmic clock.</td></tr>
+<td>Set this to "normal" to get a logarithmic clock, or to "reverse" to get a
+reverse logarithmic clock. (By default, of course, the clock is
+linear.)</td></tr>
 
 </table>
 
-You should be able to omit fields to indicate you want the default values, eg
-`CoolClock::::noSeconds` means default face skin, default text skin and default
-size with no second hand.
+Skipping a field indicates that you want the default value.
 
 If you want to add a real css class to your clock canvases you can do so by
 adding a space then the class. For example:
 
 ````Html
-<canvas id="clk1" class="CoolClock:fancy myClock"></canvas>
+<canvas id="clk1" class="CoolClock myClock"></canvas>
 ````
 
 And of course you can add styles directly if you need to, eg:
 
 ````Html
-<canvas id="clk2" style="display:block;" class="CoolClock:fancy"></canvas>
+<canvas id="clk2" style="display:block;" class="CoolClock"></canvas>
 `````
 
 The id can be anything but it should be unique of course.
@@ -151,11 +154,11 @@ Synchronize with Server time
 ----------------------------
 
 To have your clocks synchronized with the web server's time, set
-CoolClock.config.useServerTime to true. This will cause all clocks in your page
-to use the server's clock (and not the user's computer clock) as their
-reference time.
+CoolClock.config.useServerTime to true before calling
+CoolClock.findAndCreateClocks(). This will cause all clocks in your page to use
+the server's clock (and not the user's computer clock) as their reference time.
 
-(Note that this will only change the reference time. You can still use gmtOffset
+(Note that this will only change the reference time. You can still use _gmtOffset
 to have your clocks display different times to that of the server. Also, you
 need jQuery for this to work; this is because the code uses Ajax to retrieve
 the server time, and we need a framework to provide an Ajax implementation that

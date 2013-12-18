@@ -10,9 +10,10 @@
 
 <h1>CoolClock Demo
 
-<p><canvas id="clock1" class="CoolClock:::::-5:showDigital:New_York:"></canvas></p>
-<p><canvas id="clock2" class="CoolClock:::::0:showDigital:London:"></canvas></p>
-<p><canvas id="clock3" class="CoolClock:::::+2:showDigital:Nicosia:"></canvas></p>
+<p><canvas id="clock1" class="CoolClock" _clockTitle="Local Time" _showDigital></canvas></p>
+<p><canvas id="clock2" class="CoolClock" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas></p>
+<p><canvas id="clock3" class="CoolClock" _gmtOffset="0" _clockTitle="London" _showDigital></canvas></p>
+<p><canvas id="clock4" class="CoolClock" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas></p>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="coolclock.js"></script>

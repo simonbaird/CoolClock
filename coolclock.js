@@ -12,14 +12,19 @@ if (!Date.now) {
 
 // Config contains some defaults, some skins, and some options
 CoolClock.config = {
-	// General options and defaults; see README.md
+	// General options and defaults
 	tickDelay: 1000,
 	longTickDelay: 15000,
-	defaultRadius: 85,
-	renderRadius: 100,
-	defaultSkin: "swissRail",
-	defaultTextSkin: "std",
+	shortTickDelay: 50,
+	defaultSkinId: "swissRail",
+	defaultTextSkinId: "std",
+	defaultDisplayRadius: 85,
+	defaultRenderRadius: 100,
+	defaultSecondHand: "tick",
 	defaultClockTitle: "",
+	defaultLogClock: null,
+
+	// Set this to true to synchronize the clocks with the web server
 	useServerTime : true,
 
 	// Clock face skins
@@ -110,18 +115,29 @@ CoolClock.prototype = {
 	init: function(options) {
 		// Parse and store the options
 		this.canvasId       = options.canvasId;
-		this.skinId         = options.skinId || CoolClock.config.defaultSkin;
-		this.textSkinId     = options.textSkinId || CoolClock.config.defaultTextSkin;
-		this.displayRadius  = options.displayRadius || CoolClock.config.defaultRadius;
-		this.renderRadius   = options.renderRadius || CoolClock.config.renderRadius;
-		this.showSecondHand = typeof options.showSecondHand == "boolean" ? options.showSecondHand : true;
-		this.gmtOffset      = (options.gmtOffset != null && options.gmtOffset != '') ? parseFloat(options.gmtOffset) : null;
-		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
-		this.clockTitle     = (options.clockTitle != null && options.clockTitle != '') ? options.clockTitle.toString().replace('_',' ') : CoolClock.config.defaultClockTitle;
-		this.logClock       = typeof options.logClock == "boolean" ? options.logClock : false;
-		this.logClockRev    = typeof options.logClock == "boolean" ? options.logClockRev : false;
+		this.skinId         = options.skinId || CoolClock.config.defaultSkinId;
+		this.textSkinId     = options.textSkinId || CoolClock.config.defaultTextSkinId;
+		this.displayRadius  = options.displayRadius ? parseInt(options.displayRadius) : CoolClock.config.defaultDisplayRadius;
+		this.renderRadius   = options.renderRadius ? parseInt(options.renderRadius) : CoolClock.config.defaultRenderRadius;
+		this.secondHand     = options.secondHand || CoolClock.config.defaultSecondHand;
+		this.gmtOffset      = options.gmtOffset ? parseInt(options.gmtOffset) : null;
+		this.showDigital    = (options.showDigital != null) || false;
+		this.clockTitle     = options.clockTitle || CoolClock.config.defaultClockTitle;
+		this.logClock       = options.logClock || CoolClock.config.defaultLogClock;
 
-		this.tickDelay      = CoolClock.config[ this.showSecondHand ? "tickDelay" : "longTickDelay" ];
+		// Set a long or short tick delay, depending on the type of the second hand
+		if (this.secondHand == "smooth")
+		{
+			this.tickDelay = CoolClock.config.shortTickDelay;
+		}
+		else if (this.secondHand == "none")
+		{
+			this.tickDelay = CoolClock.config.longTickDelay;
+		}
+		else
+		{
+			this.tickDelay = CoolClock.config.tickDelay;
+		}
 
 		// Get the canvas element
 		this.canvas = document.getElementById(this.canvasId);
@@ -201,10 +217,10 @@ CoolClock.prototype = {
 	tickAngle: function(second) {
 		// Log algorithm by David Bradshaw
 		var tweak = 3; // If it's lower the one second mark looks wrong (?)
-		if (this.logClock) {
+		if (this.logClock == "normal") {
 			return second == 0 ? 0 : (Math.log(second*tweak) / Math.log(60*tweak));
 		}
-		else if (this.logClockRev) {
+		else if (this.logClock == "reverse") {
 			// Flip the seconds then flip the angle (trickiness)
 			second = (60 - second) % 60;
 			return 1.0 - (second == 0 ? 0 : (Math.log(second*tweak) / Math.log(60*tweak)));
@@ -216,7 +232,7 @@ CoolClock.prototype = {
 
 	// Take time as an (hour, minute, second) tuple and return it as a readable string
 	timeText: function(hour,min,sec) {
-		var s = CoolClock.config.textSkins[this.textSkinId];
+		var s =this.getTextSkin(this.textSkinId);
 		return '' +
 			(s.showAmPm ? ((hour%12)==0 ? 12 : (hour%12)) : hour) + ':' +
 			this.lpad2(min) +
@@ -277,7 +293,7 @@ CoolClock.prototype = {
 		if (skin.minuteHand)
 			this.radialLineAtAngle(this.tickAngle(minA),skin.minuteHand);
 
-		if (this.showSecondHand && skin.secondHand)
+		if ((this.secondHand != "none") && skin.secondHand)
 			this.radialLineAtAngle(this.tickAngle(secA),skin.secondHand);
 
 		// Hands decoration
@@ -287,7 +303,7 @@ CoolClock.prototype = {
 		if (skin.minDecoration)
 			this.radialLineAtAngle(this.tickAngle(minA), skin.minDecoration);
 
-		if (this.showSecondHand && skin.secondDecoration)
+		if ((this.secondHand != "none") && skin.secondDecoration)
 			this.radialLineAtAngle(this.tickAngle(secA),skin.secondDecoration);
 
 		// Draw the clock title
@@ -321,8 +337,8 @@ CoolClock.prototype = {
 		{
 			// If necessary, synchronize with web server time
 			now += CoolClock.config.serverTimeOffset;
-			now = new Date(now);
 		}
+		now = new Date(now);
 
 		if (this.gmtOffset != null) {
 			// Use GMT + gmtOffset
@@ -378,14 +394,14 @@ CoolClock.prototype = {
 	// Return the clock's face skin
 	getSkin: function() {
 		var skin = CoolClock.config.skins[this.skinId];
-		if (!skin) skin = CoolClock.config.skins[CoolClock.config.defaultSkin];
+		if (!skin) skin = CoolClock.config.skins[CoolClock.config.defaultSkinId];
 		return skin;
 	},
 
 	// Return the clock's digital clock and title skin
 	getTextSkin: function() {
 		var skin = CoolClock.config.textSkins[this.textSkinId];
-		if (!skin) skin = CoolClock.config.textSkins[CoolClock.config.defaultTextSkin];
+		if (!skin) skin = CoolClock.config.textSkins[CoolClock.config.defaultTextSkinId];
 		return skin;
 	},
 
@@ -437,6 +453,18 @@ CoolClock.startAllClocks = function() {
 	}
 }
 
+// Return the value of an HTML element's attribute
+CoolClock.elAttr = function(element, attrName) {
+	for (var i = 0; i < element.attributes.length; i++)
+	{
+		var a = element.attributes[i];
+		if (a.nodeName == attrName)
+			return a.nodeValue;
+	}
+
+	return null;
+}
+
 // Find all canvas elements that have the CoolClock class and turns them into clocks
 CoolClock.findAndCreateClocks = function() {
 	// If canvas is not supported, do nothing
@@ -445,25 +473,24 @@ CoolClock.findAndCreateClocks = function() {
 	// (Let's not use a jQuery selector here so it's easier to use frameworks other than jQuery)
 	var canvases = document.getElementsByTagName("canvas");
 	for (var i=0;i<canvases.length;i++) {
-		// Pull out the fields from the class. Example "CoolClock:chunkySwissOnBlack:1000"
-		var fields = canvases[i].className.split(" ")[0].split(":");
-		if (fields[0] == "CoolClock") {
-			if (!canvases[i].id) {
+		canvas = canvases[i];
+		if (canvas.className == "CoolClock") {
+			if (!canvas.id) {
 				// If there's no id on this canvas element then give it one
-				canvases[i].id = '_coolclock_auto_id_' + CoolClock.config.noIdCount++;
+				canvas.id = '_coolclock_auto_id_' + CoolClock.config.noIdCount++;
 			}
 			// Create a clock object for this element
 			var clock = new CoolClock({
-				canvasId:       canvases[i].id,
-			    skinId:         fields[1],
-			    textSkinId:     fields[2],
-			    displayRadius:  fields[3],
-			    showSecondHand: fields[4]!='noSeconds',
-			    gmtOffset:      fields[5],
-			    showDigital:    fields[6]=='showDigital',
-			    clockTitle:     fields[7],
-			    logClock:       fields[8]=='logClock',
-			    logClockRev:    fields[8]=='logClockRev'
+			    canvasId:       canvas.id,
+			    skinId:         this.elAttr(canvas, "_skinid"),
+			    textSkinId:     this.elAttr(canvas, "_textskinid"),
+			    displayRadius:  this.elAttr(canvas, "_displayradius"),
+			    renderRadius:   this.elAttr(canvas, "_renderradius"),
+			    secondHand:     this.elAttr(canvas, "_secondhand"),
+			    gmtOffset:      this.elAttr(canvas, "_gmtoffset"),
+			    showDigital:    this.elAttr(canvas, "_showdigital"),
+			    clockTitle:     this.elAttr(canvas, "_clocktitle"),
+			    logClock:       this.elAttr(canvas, "_logclock")
 			});
 		}
 	}
