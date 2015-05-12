@@ -188,3 +188,9 @@ Changelog
 **11-Dec-2013**
 
 - Initial fork (ver. 0.1)
+
+**12-May-2015**
+
+- Text skins now have shadows
+- Minor bug fixes
+- More clocks in demo.html

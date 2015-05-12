@@ -75,6 +75,7 @@ CoolClock.config = {
 		std: {
 			font: "10px sans-serif",
 			color: "#222222",
+			shadowColor: "#eeeeee",
 			titleOffset: -0.6,
 			digitalOffset: 0.6,
 			showSecs: true,
@@ -83,6 +84,7 @@ CoolClock.config = {
 		stdOnBlack: {
 			font: "10px sans-serif",
 			color: "#eeeeee",
+			shadowColor: "#222222",
 			titleOffset: -0.6,
 			digitalOffset: 0.6,
 			showSecs: true,
@@ -91,6 +93,7 @@ CoolClock.config = {
 		miliUbuntu: {
 			font: "11px miliUbuntu",	// font class must be defined in a .css file
 			color: "#222222",
+			shadowColor: "#eeeeee",
 			titleOffset: -0.6,
 			digitalOffset: 0.6,
 			showSecs: true,
@@ -198,6 +201,11 @@ CoolClock.prototype = {
 		this.ctx.save();
 		this.ctx.font = textSkin.font;
 		this.ctx.fillStyle = textSkin.color;
+		if (textSkin.shadowColor)
+		{
+			this.ctx.shadowColor = textSkin.shadowColor;
+			this.ctx.shadowBlur = 1;
+		}
 		var tSize = this.ctx.measureText(theText);
 		// TextMetrics rarely returns a height property: use baseline instead.
 		if (!tSize.height) {
@@ -422,7 +430,7 @@ CoolClock.calcServerTimeOffset = function() {
 		//   Note that server time offset will be rounded to the nearest second
 		try {
 			var ltb = Date.now();
-			jQuery.post("/", null, function (data, status, header) {
+			jQuery.post("", null, function (data, status, header) {
 				var st = new Date(header.getResponseHeader("Date"));
 				st = st.getTime();
 				var lta = Date.now();

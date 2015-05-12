@@ -1,22 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-<title>CoolClock Demo</title>
-<meta charset="utf-8">
-</head>
+	<head>
+		<title>CoolClock Demo</title>
+		<meta charset="utf-8">
+	</head>
 
-<body>
+	<body>
 
-<h1>CoolClock Demo
+		<h1>CoolClock Demo
 
-<p><canvas id="clock1" class="CoolClock" _clockTitle="Local Time" _showDigital></canvas></p>
-<p><canvas id="clock2" class="CoolClock" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas></p>
-<p><canvas id="clock3" class="CoolClock" _gmtOffset="0" _clockTitle="London" _showDigital></canvas></p>
-<p><canvas id="clock4" class="CoolClock" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas></p>
+			<p>
+			<canvas id="clock11" class="CoolClock" _skinId="swissRail" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock12" class="CoolClock" _skinId="swissRail" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock13" class="CoolClock" _skinId="swissRail" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock14" class="CoolClock" _skinId="swissRail" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="coolclock.js"></script>
-</body>
+			<p>
+			<canvas id="clock21" class="CoolClock" _skinId="chunkySwiss" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock22" class="CoolClock" _skinId="chunkySwiss" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock23" class="CoolClock" _skinId="chunkySwiss" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock24" class="CoolClock" _skinId="chunkySwiss" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p style="background-color: #222222;">
+			<canvas id="clock31" class="CoolClock" _skinId="chunkySwissOnBlack" _textSkinId="stdOnBlack" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock32" class="CoolClock" _skinId="chunkySwissOnBlack" _textSkinId="stdOnBlack" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock33" class="CoolClock" _skinId="chunkySwissOnBlack" _textSkinId="stdOnBlack" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock34" class="CoolClock" _skinId="chunkySwissOnBlack" _textSkinId="stdOnBlack" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock41" class="CoolClock" _skinId="miliUbuntu" _textSkinId="miliUbuntu" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock42" class="CoolClock" _skinId="miliUbuntu" _textSkinId="miliUbuntu" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock43" class="CoolClock" _skinId="miliUbuntu" _textSkinId="miliUbuntu" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock44" class="CoolClock" _skinId="miliUbuntu" _textSkinId="miliUbuntu" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock51" class="CoolClock" _skinId="classic" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock52" class="CoolClock" _skinId="classic" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock53" class="CoolClock" _skinId="classic" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock54" class="CoolClock" _skinId="classic" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock61" class="CoolClock" _skinId="modern" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock62" class="CoolClock" _skinId="modern" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock63" class="CoolClock" _skinId="modern" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock64" class="CoolClock" _skinId="modern" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock71" class="CoolClock" _skinId="simple" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock72" class="CoolClock" _skinId="simple" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock73" class="CoolClock" _skinId="simple" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock74" class="CoolClock" _skinId="simple" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock81" class="CoolClock" _skinId="securephp" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock82" class="CoolClock" _skinId="securephp" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock83" class="CoolClock" _skinId="securephp" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock84" class="CoolClock" _skinId="securephp" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock91" class="CoolClock" _skinId="Tes2" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock92" class="CoolClock" _skinId="Tes2" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock93" class="CoolClock" _skinId="Tes2" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock94" class="CoolClock" _skinId="Tes2" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock101" class="CoolClock" _skinId="Lev" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock102" class="CoolClock" _skinId="Lev" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock103" class="CoolClock" _skinId="Lev" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock104" class="CoolClock" _skinId="Lev" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock111" class="CoolClock" _skinId="Sand" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock112" class="CoolClock" _skinId="Sand" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock113" class="CoolClock" _skinId="Sand" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock114" class="CoolClock" _skinId="Sand" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock121" class="CoolClock" _skinId="Sun" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock122" class="CoolClock" _skinId="Sun" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock123" class="CoolClock" _skinId="Sun" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock124" class="CoolClock" _skinId="Sun" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock131" class="CoolClock" _skinId="Tor" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock132" class="CoolClock" _skinId="Tor" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock133" class="CoolClock" _skinId="Tor" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock134" class="CoolClock" _skinId="Tor" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock141" class="CoolClock" _skinId="Cold" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock142" class="CoolClock" _skinId="Cold" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock143" class="CoolClock" _skinId="Cold" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock144" class="CoolClock" _skinId="Cold" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock151" class="CoolClock" _skinId="Babosa" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock152" class="CoolClock" _skinId="Babosa" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock153" class="CoolClock" _skinId="Babosa" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock154" class="CoolClock" _skinId="Babosa" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock161" class="CoolClock" _skinId="Tumb" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock162" class="CoolClock" _skinId="Tumb" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock163" class="CoolClock" _skinId="Tumb" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock164" class="CoolClock" _skinId="Tumb" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock171" class="CoolClock" _skinId="Stone" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock172" class="CoolClock" _skinId="Stone" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock173" class="CoolClock" _skinId="Stone" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock174" class="CoolClock" _skinId="Stone" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<p>
+			<canvas id="clock181" class="CoolClock" _skinId="Disc" _textSkinId="std" _clockTitle="Local Time" _showDigital></canvas>
+			<canvas id="clock182" class="CoolClock" _skinId="Disc" _textSkinId="std" _gmtOffset="-5" _clockTitle="New York" _showDigital></canvas>
+			<canvas id="clock183" class="CoolClock" _skinId="Disc" _textSkinId="std" _gmtOffset="0" _clockTitle="London" _showDigital></canvas>
+			<canvas id="clock184" class="CoolClock" _skinId="Disc" _textSkinId="std" _gmtOffset="+2" _clockTitle="Nicosia" _showDigital></canvas>
+			</p>
+
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+			<script src="coolclock.js"></script>
+			<script src="moreskins.js"></script>
+	</body>
 </html>
 
