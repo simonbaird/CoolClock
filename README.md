@@ -9,6 +9,9 @@ This is my fork of CoolClock, a customisable JavaScript analog clock.
 New Features
 ------------
 
+- **(12-May-2015)** - Shadows can now be applied to digital clock text.
+- **(12-May-2015)** - New demo.html. Now renders clocks for all available skins.
+- **(12-May-2015)** - A few bug fixes.
 - **(18-Dec-2013)** - Clock parameters are now passed via canvas class
   attributes.
 - **(18-Dec-2013)** - Seconds hand can now have a "smooth" motion".
@@ -182,15 +185,3 @@ to use it pretty much however you want, including for commercial purposes, as
 long as you keep my copyright notice. (You can see the full license text at the
 top of coolclock.js).
 
-Changelog
----------
-
-**11-Dec-2013**
-
-- Initial fork (ver. 0.1)
-
-**12-May-2015**
-
-- Text skins now have shadows
-- Minor bug fixes
-- More clocks in demo.html
