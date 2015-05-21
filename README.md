@@ -1,10 +1,7 @@
-CoolClock - The Javascript Analog Clock
-=======================================
+CoolClock - An analogue clock for your website
+==============================================
 
-About CoolClock
----------------
-
-This is my fork of CoolClock, a customisable JavaScript analog clock.
+This is my fork of CoolClock, a customisable JavaScript analogue clock.
 
 New Features
 ------------
@@ -143,7 +140,7 @@ And of course you can add styles directly if you need to, eg:
 
 ````Html
 <canvas id="clk2" style="display:block;" class="CoolClock"></canvas>
-`````
+````
 
 The id can be anything but it should be unique of course.
 
