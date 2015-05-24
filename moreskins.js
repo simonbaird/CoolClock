@@ -1,33 +1,42 @@
 CoolClock.config.skins = {
-
 	swissRail: {
-		outerBorder:      { lineWidth: 2, radius: 95, color: "black", alpha: 1 },
-		smallIndicator:   { lineWidth: 2, startAt: 88, endAt: 92, color: "black", alpha: 1 },
-		largeIndicator:   { lineWidth: 4, startAt: 79, endAt: 92, color: "black", alpha: 1 },
-		hourHand:         { lineWidth: 8, startAt: -15, endAt: 50, color: "black", alpha: 1 },
-		minuteHand:       { lineWidth: 7, startAt: -15, endAt: 75, color: "black", alpha: 1 },
-		secondHand:       { lineWidth: 1, startAt: -20, endAt: 85, color: "red", alpha: 1 },
-		secondDecoration: { lineWidth: 1, startAt: 70, radius: 4, fillColor: "red", color: "red", alpha: 1 }
+		outerBorder: { lineWidth: 2, radius:95, color: "#555555", alpha: 1 },
+		smallIndicator: { lineWidth: 2, startAt: 88, endAt: 92, color: "#555555", alpha: 1 },
+		largeIndicator: { lineWidth: 4, startAt: 79, endAt: 92, color: "#555555", alpha: 1 },
+		hourHand: { lineWidth: 8, startAt: -15, endAt: 50, color: "#555555", alpha: 1 },
+		minuteHand: { lineWidth: 7, startAt: -15, endAt: 75, color: "#555555", alpha: 1 },
+		secondHand: { lineWidth: 1, startAt: -20, endAt: 85, color: "#ff5555", alpha: 1 },
+		secondDecoration: { lineWidth: 1, startAt: 70, radius: 4, fillColor: "#ff5555", color: "#ff5555", alpha: 1 }
 	},
 
 	chunkySwiss: {
-		outerBorder:      { lineWidth: 4, radius: 97, color: "black", alpha: 1 },
-		smallIndicator:   { lineWidth: 4, startAt: 89, endAt: 93, color: "black", alpha: 1 },
-		largeIndicator:   { lineWidth: 8, startAt: 80, endAt: 93, color: "black", alpha: 1 },
-		hourHand:         { lineWidth: 12, startAt: -15, endAt: 60, color: "black", alpha: 1 },
-		minuteHand:       { lineWidth: 10, startAt: -15, endAt: 85, color: "black", alpha: 1 },
-		secondHand:       { lineWidth: 4, startAt: -20, endAt: 85, color: "red", alpha: 1 },
-		secondDecoration: { lineWidth: 2, startAt: 70, radius: 8, fillColor: "red", color: "red", alpha: 1 }
+		outerBorder: { lineWidth: 4, radius:97, color: "#555555", alpha: 1 },
+		smallIndicator: { lineWidth: 4, startAt: 89, endAt: 93, color: "#555555", alpha: 1 },
+		largeIndicator: { lineWidth: 8, startAt: 80, endAt: 93, color: "#555555", alpha: 1 },
+		hourHand: { lineWidth: 12, startAt: -15, endAt: 60, color: "#555555", alpha: 1 },
+		minuteHand: { lineWidth: 10, startAt: -15, endAt: 85, color: "#555555", alpha: 1 },
+		secondHand: { lineWidth: 4, startAt: -20, endAt: 85, color: "#ff5555", alpha: 1 },
+		secondDecoration: { lineWidth: 2, startAt: 70, radius: 8, fillColor: "#ff5555", color: "#ff5555", alpha: 1 }
 	},
 
 	chunkySwissOnBlack: {
-		outerBorder:      { lineWidth: 4, radius: 97, color: "white", alpha: 1 },
-		smallIndicator:   { lineWidth: 4, startAt: 89, endAt: 93, color: "white", alpha: 1 },
-		largeIndicator:   { lineWidth: 8, startAt: 80, endAt: 93, color: "white", alpha: 1 },
-		hourHand:         { lineWidth: 12, startAt: -15, endAt: 60, color: "white", alpha: 1 },
-		minuteHand:       { lineWidth: 10, startAt: -15, endAt: 85, color: "white", alpha: 1 },
-		secondHand:       { lineWidth: 4, startAt: -20, endAt: 85, color: "red", alpha: 1 },
-		secondDecoration: { lineWidth: 2, startAt: 70, radius: 8, fillColor: "red", color: "red", alpha: 1 }
+		outerBorder: { lineWidth: 4, radius:97, color: "#cccccc", alpha: 1 },
+		smallIndicator: { lineWidth: 4, startAt: 89, endAt: 93, color: "#cccccc", alpha: 1 },
+		largeIndicator: { lineWidth: 8, startAt: 80, endAt: 93, color: "#cccccc", alpha: 1 },
+		hourHand: { lineWidth: 12, startAt: -15, endAt: 60, color: "#cccccc", alpha: 1 },
+		minuteHand: { lineWidth: 10, startAt: -15, endAt: 85, color: "#cccccc", alpha: 1 },
+		secondHand: { lineWidth: 4, startAt: -20, endAt: 85, color: "#ff5555", alpha: 1 },
+		secondDecoration: { lineWidth: 2, startAt: 70, radius: 8, fillColor: "#ff5555", color: "#ff5555", alpha: 1 }
+	},
+
+	miliUbuntu: {
+		outerBorder: { lineWidth: 2, radius:95, color: "#555555", alpha: 1 },
+		smallIndicator: { lineWidth: 2, startAt: 88, endAt: 92, color: "#555555", alpha: 1 },
+		largeIndicator: { lineWidth: 4, startAt: 79, endAt: 92, color: "#555555", alpha: 1 },
+		hourHand: { lineWidth: 8, startAt: -15, endAt: 50, color: "#555555", alpha: 1 },
+		minuteHand: { lineWidth: 7, startAt: -15, endAt: 75, color: "#555555", alpha: 1 },
+		secondHand: { lineWidth: 1, startAt: -20, endAt: 85, color: "#f58535", alpha: 1 },
+		secondDecoration: { lineWidth: 1, startAt: 70, radius: 4, fillColor: "#f58535", color: "#f58535", alpha: 1 }
 	},
 
 	fancy: {
